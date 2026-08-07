@@ -1,0 +1,105 @@
+plugins {
+    id 'com.android.application'
+    id 'kotlin-android'
+    // Existing plugins
+    alias(libs.plugins.compose.compiler)
+}
+
+def secretPropertiesFile = rootProject.file("./secret.properties")
+def secretProperties = new Properties()
+secretProperties.load(new FileInputStream(secretPropertiesFile))
+
+android {
+    compileSdk compile_sdk
+
+    defaultConfig {
+        minSdk min_sdk
+        targetSdk target_sdk
+        versionCode version_code
+        versionName version_name
+        applicationId "com.mapxus.positioning.sample_app"
+
+        ndk {
+            abiFilters 'armeabi', 'armeabi-v7a', 'armeabi-v8a', "arm64-v8a"
+        }
+
+        vectorDrawables {
+            useSupportLibrary true
+        }
+
+        testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
+
+        manifestPlaceholders = ["appid": secretProperties['appid'], "secret": secretProperties['secret']]
+
+    }
+
+    android.applicationVariants.all { variant ->
+        variant.outputs.all {
+            outputFileName = "Positioning_Sample_App_${defaultConfig.versionName}_${variant.name}.apk"
+        }
+    }
+
+    buildTypes {
+        debug {
+            debuggable true
+        }
+
+    }
+    compileOptions {
+        sourceCompatibility JavaVersion.VERSION_17
+        targetCompatibility JavaVersion.VERSION_17
+    }
+    kotlinOptions {
+        jvmTarget = '17'
+    }
+
+    buildFeatures {
+        buildConfig true
+        compose true
+    }
+
+    composeOptions {
+        kotlinCompilerExtensionVersion "$compose_compiler_version"
+    }
+
+    packagingOptions {
+        resources {
+            excludes += '/META-INF/{AL2.0,LGPL2.1}'
+        }
+    }
+
+    namespace 'com.mapxus.positioning.sample_app'
+    lint {
+        abortOnError false
+    }
+}
+
+dependencies {
+    implementation libs.mapxus.positioning
+
+    //mapxus
+    implementation libs.mapxus.map
+
+    //google & compose
+    implementation libs.google.material
+    api(libs.compose.navigation)
+
+    implementation platform(libs.compose.bom)
+    implementation libs.compose.ui.graphics
+    api libs.compose.material3
+    api libs.compose.ui.tooling
+
+    //permission
+    api libs.permissionx
+
+    // data store
+    api libs.androidx.datastore.preferences
+
+    implementation libs.coil.compose
+    implementation libs.coil.gif
+
+    androidTestImplementation "androidx.test:rules:1.6.1"
+    androidTestImplementation "androidx.test.ext:junit:1.2.1"
+    androidTestImplementation "androidx.compose.ui:ui-test-junit4:1.5.2"
+    debugImplementation "androidx.compose.ui:ui-test-manifest:1.5.2"
+}
