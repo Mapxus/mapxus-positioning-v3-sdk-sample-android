@@ -1,6 +1,7 @@
 package com.mapxus.positioning.sample_app.page.positioning
 
 import android.os.Bundle
+import android.view.MotionEvent
 import androidx.activity.OnBackPressedDispatcher
 import androidx.activity.addCallback
 import androidx.activity.compose.LocalOnBackPressedDispatcherOwner
@@ -37,6 +38,11 @@ open class PositioningActivity : AppCompatActivity() {
                 )
             }
         }
+    }
+
+    override fun dispatchTouchEvent(ev: MotionEvent?): Boolean {
+        viewModel.dispatchTouchEvent()
+        return super.dispatchTouchEvent(ev)
     }
 
     override fun onDestroy() {

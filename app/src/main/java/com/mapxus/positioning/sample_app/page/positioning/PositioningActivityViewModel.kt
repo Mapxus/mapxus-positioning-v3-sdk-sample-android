@@ -166,6 +166,10 @@ class PositioningActivityViewModel(
         }
     }
 
+    fun dispatchTouchEvent() {
+        mapxusPositioningClient.dispatchTouchEvent()
+    }
+
     /**
      * Start positioning
      *

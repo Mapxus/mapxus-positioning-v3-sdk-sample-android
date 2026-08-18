@@ -14,7 +14,7 @@ class UploadLogViewModel(context: Application) : AndroidViewModel(context) {
 
     private val bugReportListener: MapxusIssueReportListener =
         object : MapxusIssueReportListener {
-            override fun onRecordUploadSuccess(record: Record) {
+            override fun onRecordUploadSuccess(record: com.mapxus.positioning.api.issuereport.Record) {
                 "onRecordUploadSuccess record $record ".logI()
                 _state.update {
                     it.copy(
@@ -27,7 +27,10 @@ class UploadLogViewModel(context: Application) : AndroidViewModel(context) {
                 getLogsFile()
             }
 
-            override fun onRecordUploadFailed(record: Record, errorMessage: String) {
+            override fun onRecordUploadFailed(
+                record: com.mapxus.positioning.api.issuereport.Record,
+                errorMessage: String
+            ) {
                 "onRecordUploadFailed record $record , errorMessage $errorMessage ".logI()
                 _state.update {
                     it.copy(
@@ -41,7 +44,7 @@ class UploadLogViewModel(context: Application) : AndroidViewModel(context) {
             }
 
             override fun onUploadProgressUpdate(
-                record: Record,
+                record: com.mapxus.positioning.api.issuereport.Record,
                 progress: Float,
                 writtenSize: Long,
                 totalSize: Long
@@ -86,7 +89,7 @@ class UploadLogViewModel(context: Application) : AndroidViewModel(context) {
     }
 
     fun uploadLogsFile(
-        recordFile: Record,
+        recordFile: com.mapxus.positioning.api.issuereport.Record,
     ) {
         _state.update {
             it.copy(
@@ -106,7 +109,7 @@ class UploadLogViewModel(context: Application) : AndroidViewModel(context) {
     }
 
     data class UIState(
-        val records: DataStatus<List<Record>> = DataStatus.Idle,
+        val records: DataStatus<List<com.mapxus.positioning.api.issuereport.Record>> = DataStatus.Idle,
         val uploadResult: DataStatus<Unit> = DataStatus.Idle,
         val progress: Float = 0.00f,
         val totalSize: Long = 0L,

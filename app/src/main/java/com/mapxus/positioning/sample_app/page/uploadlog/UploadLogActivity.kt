@@ -218,8 +218,8 @@ private fun ShowUiTips(
 @Preview
 @Composable
 private fun LogsList(
-    logsFiles: List<Record> = emptyList(),
-    onUploadButtonClicked: (Record) -> Unit = {},
+    logsFiles: List<com.mapxus.positioning.api.issuereport.Record> = emptyList(),
+    onUploadButtonClicked: (com.mapxus.positioning.api.issuereport.Record) -> Unit = {},
 ) {
     LazyColumn {
         itemsIndexed(items = logsFiles, itemContent = { _, log ->
