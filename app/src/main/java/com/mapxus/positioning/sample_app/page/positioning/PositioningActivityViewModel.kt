@@ -355,6 +355,7 @@ class PositioningActivityViewModel(
         indoorLocation.accuracy = location.accuracy
         //dispatch
         mapxusPositioningProvider.dispatchIndoorLocationChange(indoorLocation)
+        currentLocation = location
     }
 
     override fun onWheelchairSpeedChange(speed: Float) {
