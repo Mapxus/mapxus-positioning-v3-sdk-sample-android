@@ -17,6 +17,11 @@ dependencyResolutionManagement {
         google()
         mavenCentral()
         mavenLocal()
+        maven {
+            name 'release'
+            url("https://nexus3.mapxus.com/repository/mapxus-ps-sdk-v3-android")
+            allowInsecureProtocol = true
+        }
     }
 }
 
